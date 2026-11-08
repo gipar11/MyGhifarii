@@ -12,17 +12,23 @@
   --font-heading: var(--font-jakarta), sans-serif;
 }
 
+/* Trik Light Mode untuk Tailwind v4 */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-textMain);
   overflow-x: hidden;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-/* Memberi jarak saat scroll ke section agar tidak tertutup Navbar */
-section {
-  scroll-margin-top: 80px; 
+/* Ketika class .dark dihapus dari <html>, warna ini yang akan aktif */
+html:not(.dark) body {
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-textMain: #0F172A;
+  --color-textMuted: #64748B;
+  background-color: var(--color-background);
+  color: var(--color-textMain);
 }
