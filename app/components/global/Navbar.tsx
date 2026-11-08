@@ -37,10 +37,25 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
   return (
     <nav className="fixed top-0 w-full z-40 bg-background/80 backdrop-blur-md border-b border-surface transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Link href="/" className="text-xl font-heading font-bold tracking-wider text-textMain">
-          GHIFARI.
+        
+        {/* Logo & Teks Brand */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          {/* Logo Bulat (Diperkecil jadi 8x8 / 32px) */}
+          <div className="w-8 h-8 rounded-full overflow-hidden border border-primary/30 shadow-[0_0_10px_rgba(59,130,246,0.2)] group-hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 flex items-center justify-center bg-background">
+            <img 
+              src="/logo GH.png" 
+              alt="GH Logo" 
+              className="w-full h-full object-cover scale-110" 
+            />
+          </div>
+          
+          {/* Teks Brand (Kecil, Rapat, Font Sans) */}
+          <span className="text-sm font-sans font-medium tracking-wide text-textMain group-hover:text-primary transition-colors duration-300">
+            GHIFARI
+          </span>
         </Link>
         
+        {/* Menu Navigasi */}
         <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-textMuted">
           <Link href="#home" className="hover:text-primary transition-colors">{lang === "ID" ? "Home" : "Home"}</Link>
           <Link href="#about" className="hover:text-primary transition-colors">{lang === "ID" ? "Tentang" : "About"}</Link>
@@ -51,6 +66,7 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
           <Link href="#contact" className="hover:text-primary transition-colors">{lang === "ID" ? "Kontak" : "Contact"}</Link>
         </div>
 
+        {/* Tombol Tema & Bahasa */}
         <div className="flex items-center space-x-4">
           <button onClick={toggleTheme} className="p-2 rounded-full border border-surface text-textMuted hover:text-primary transition-colors">
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
