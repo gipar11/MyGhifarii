@@ -1,8 +1,8 @@
 "use client";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 
 interface NavbarProps {
   lang: "ID" | "EN";
@@ -11,6 +11,7 @@ interface NavbarProps {
 
 export default function Navbar({ lang, setLang }: NavbarProps) {
   const [isDark, setIsDark] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State untuk menu HP
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -35,14 +36,25 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
     }
   };
 
+  const closeMenu = () => setIsMobileMenuOpen(false);
+
+  // Daftar menu agar tidak nulis ulang
+  const menuItems = [
+    { name: "Home", id: "home" },
+    { name: lang === "ID" ? "Tentang" : "About", id: "about" },
+    { name: lang === "ID" ? "Keahlian" : "Skills", id: "skills" },
+    { name: lang === "ID" ? "Proyek" : "Projects", id: "projects" },
+    { name: lang === "ID" ? "Analitik" : "Analytics", id: "analytics" },
+    { name: lang === "ID" ? "Prestasi" : "Achievements", id: "achievements" },
+    { name: lang === "ID" ? "Kontak" : "Contact", id: "contact" },
+  ];
+
   return (
     <nav className="fixed top-0 w-full z-40 bg-background/80 backdrop-blur-md border-b border-surface transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* Logo & Teks Brand */}
-        <Link href="/" className="flex items-center gap-2 group">
-          
-          {/* Logo Bulat dengan Efek Cahaya Berdenyut */}
+        <Link href="/" className="flex items-center gap-2 group z-50">
           <motion.div 
             className="w-8 h-8 rounded-full overflow-hidden border border-primary/30 flex items-center justify-center bg-background relative"
             animate={{ 
@@ -50,32 +62,25 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
             }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           >
-            <img 
-              src="/logo GH.png" 
-              alt="GH Logo" 
-              className="w-full h-full object-cover scale-110" 
-            />
+            <img src="/logo GH.png" alt="GH Logo" className="w-full h-full object-cover scale-110" />
           </motion.div>
           
-          {/* Teks Brand dengan Efek Sinar Berjalan di dalam Huruf */}
           <span className="text-base font-heading italic font-bold tracking-tighter text-shimmer">
             GHIFARI
           </span>
         </Link>
         
-        {/* Menu Navigasi */}
+        {/* Menu Navigasi Desktop */}
         <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-textMuted">
-          <Link href="#home" className="hover:text-primary transition-colors">{lang === "ID" ? "Home" : "Home"}</Link>
-          <Link href="#about" className="hover:text-primary transition-colors">{lang === "ID" ? "Tentang" : "About"}</Link>
-          <Link href="#skills" className="hover:text-primary transition-colors">{lang === "ID" ? "Keahlian" : "Skills"}</Link>
-          <Link href="#projects" className="hover:text-primary transition-colors">{lang === "ID" ? "Proyek" : "Projects"}</Link>
-          <Link href="#analytics" className="hover:text-primary transition-colors">{lang === "ID" ? "Analitik" : "Analytics"}</Link>
-          <Link href="#achievements" className="hover:text-primary transition-colors">{lang === "ID" ? "Prestasi" : "Achievements"}</Link>
-          <Link href="#contact" className="hover:text-primary transition-colors">{lang === "ID" ? "Kontak" : "Contact"}</Link>
+          {menuItems.map((item) => (
+            <Link key={item.id} href={`#${item.id}`} className="hover:text-primary transition-colors">
+              {item.name}
+            </Link>
+          ))}
         </div>
 
-        {/* Tombol Tema & Bahasa */}
-        <div className="flex items-center space-x-4">
+        {/* Tombol Tema, Bahasa, & Hamburger */}
+        <div className="flex items-center space-x-4 z-50">
           <button onClick={toggleTheme} className="p-2 rounded-full border border-surface text-textMuted hover:text-primary transition-colors">
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
@@ -86,8 +91,40 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
           >
             {lang} <span className="text-textMuted">/</span> {lang === "ID" ? "EN" : "ID"}
           </button>
+
+          {/* Tombol Hamburger (Hanya muncul di HP) */}
+          <button 
+            className="md:hidden p-2 text-textMain"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
+
+      {/* Dropdown Menu untuk HP */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden absolute top-20 left-0 w-full bg-background border-b border-surface shadow-xl flex flex-col px-6 py-4 space-y-4"
+          >
+            {menuItems.map((item) => (
+              <Link 
+                key={item.id} 
+                href={`#${item.id}`} 
+                onClick={closeMenu} // Tutup menu saat link diklik
+                className="text-textMain font-medium text-lg hover:text-primary transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
