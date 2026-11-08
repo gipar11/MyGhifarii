@@ -8,6 +8,9 @@ const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakart
 export const metadata: Metadata = {
   title: "GHIFARI. | Portfolio",
   description: "Full Stack Developer, UI/UX Designer, Business Intelligence",
+  icons: {
+    icon: "/logo GH.png", // Memanggil logo dari folder public
+  },
 };
 
 export default function RootLayout({
