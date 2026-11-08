@@ -41,22 +41,22 @@ export default function Preloader() {
         {/* 3. Cahaya Denyut (Pulse) */}
         <div className="absolute w-24 h-24 bg-primary/20 rounded-full blur-xl animate-pulse" />
         
-        {/* 4. Logo GH (Dipotong jadi bulat) */}
-        <div className="relative z-10 w-24 h-24 rounded-full overflow-hidden border-2 border-primary/30 shadow-[0_0_20px_rgba(59,130,246,0.4)] flex items-center justify-center bg-background">
-            <img 
-              src="/logo GH.png" 
-              alt="GH Logo" 
-              // Kita perkecil ukurannya sedikit agar pas di dalam lingkaran
-              className="w-full h-full object-cover scale-110" 
-            />
+        {/* 4. Logo Diam di Tengah */}
+        <div className="relative z-10 w-20 h-20 rounded-full border-2 border-primary/30 shadow-[0_0_20px_rgba(59,130,246,0.4)] flex items-center justify-center bg-background overflow-hidden">
+          <img 
+            src="/logo GH.png" 
+            alt="GH Logo" 
+            className="w-full h-full object-cover scale-110" 
+          />
         </div>
       </motion.div>
       
+      {/* 5. Tulisan GHIFARI dengan Efek Shimmer Cepat */}
       <motion.h2 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.8 }}
-        className="text-2xl font-bold tracking-[0.3em] font-heading mb-8 text-textMain"
+        className="text-2xl font-bold tracking-[0.3em] font-heading mb-8 text-shimmer-fast"
       >
         GHIFARI
       </motion.h2>
@@ -70,7 +70,7 @@ export default function Preloader() {
           className="h-full bg-primary"
         />
       </div>
-      <p className="mt-4 text-textMuted text-sm animate-pulse">Loading...</p>
+      <p className="mt-4 text-textMuted text-sm animate-pulse">Loading Portfolio...</p>
     </motion.div>
   );
 }

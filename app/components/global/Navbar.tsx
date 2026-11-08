@@ -2,6 +2,7 @@
 import { Sun, Moon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 
 interface NavbarProps {
   lang: "ID" | "EN";
@@ -39,18 +40,25 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* Logo & Teks Brand */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          {/* Logo Bulat (Diperkecil jadi 8x8 / 32px) */}
-          <div className="w-8 h-8 rounded-full overflow-hidden border border-primary/30 shadow-[0_0_10px_rgba(59,130,246,0.2)] group-hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 flex items-center justify-center bg-background">
+        <Link href="/" className="flex items-center gap-2 group">
+          
+          {/* Logo Bulat dengan Efek Cahaya Berdenyut */}
+          <motion.div 
+            className="w-8 h-8 rounded-full overflow-hidden border border-primary/30 flex items-center justify-center bg-background relative"
+            animate={{ 
+              boxShadow: ["0px 0px 10px rgba(59,130,246,0.2)", "0px 0px 20px rgba(59,130,246,0.6)", "0px 0px 10px rgba(59,130,246,0.2)"] 
+            }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          >
             <img 
               src="/logo GH.png" 
               alt="GH Logo" 
               className="w-full h-full object-cover scale-110" 
             />
-          </div>
+          </motion.div>
           
-          {/* Teks Brand (Kecil, Rapat, Font Sans) */}
-          <span className="text-sm font-sans font-medium tracking-wide text-textMain group-hover:text-primary transition-colors duration-300">
+          {/* Teks Brand dengan Efek Sinar Berjalan di dalam Huruf */}
+          <span className="text-base font-heading italic font-bold tracking-tighter text-shimmer">
             GHIFARI
           </span>
         </Link>
